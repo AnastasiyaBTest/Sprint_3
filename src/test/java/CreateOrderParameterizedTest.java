@@ -1,10 +1,13 @@
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.ValidatableResponse;
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import ru.praktikum_services.qa_scooter.*;
+
+import java.lang.reflect.Array;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
@@ -24,11 +27,17 @@ public class CreateOrderParameterizedTest {
     @Parameterized.Parameters
     public static Object[] getTestData() {
         return new Object[][] {
-                {Order.getRandomOrder(), 201},
+                {Order.getOrderWithColor(new String[]{"BLACK","GREY"}), 201},
                 {Order.getOrderWithoutColor(), 201},
-                {Order.getOrderWithColor("BLACK"), 201},
-                {Order.getOrderWithColor("GREY"), 201}
+                {Order.getOrderWithColor(new String[]{"BLACK"}), 201},
+                {Order.getOrderWithColor(new String[]{"GREY"}), 201}
         };
+    }
+
+
+    @After
+    public void tearDown() {
+        new OrderClient().cancel(order);
     }
 
     @Test
@@ -42,6 +51,5 @@ public class CreateOrderParameterizedTest {
         Assert.assertEquals(actualCodeResult, expectedCodeResult);
         assertThat("Track is null", track, is(not(0)));
 
-        new OrderClient().cancel(order);
     }
 }

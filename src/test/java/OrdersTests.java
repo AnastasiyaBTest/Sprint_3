@@ -29,11 +29,15 @@ public class OrdersTests {
 
         int statusCode = response.extract().statusCode();
         List<Object> orders = response.extract().jsonPath().getList("orders");
+        int sizeListOrders = orders.size();
+
+        List<Object> listOfIdOrders = response.extract().jsonPath().getJsonObject("orders.id");
+        int sizeListOfIdOrders = listOfIdOrders.size();
 
         Assert.assertEquals(statusCode, 200);
         Assert.assertFalse(orders.isEmpty());
-     //   Assert.assertEquals(isCreated, true);
-      //  assertThat("Courier ID is incorrect", courierId, is(not(0)));
+        Assert.assertEquals(sizeListOfIdOrders, sizeListOrders);
+
     }
 
 

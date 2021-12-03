@@ -43,9 +43,9 @@ public class LoginCourierParameterizedTest {
             ValidatableResponse response = new CourierClient().login(courierCredentials);
 
             int actualCodeResult = response.extract().statusCode();
-            String actualMessageError = response.extract().path("message");
-
             Assert.assertEquals(actualCodeResult, expectedCodeResult);
+
+            String actualMessageError = response.extract().path("message");
             Assert.assertEquals(actualMessageError, expectedMessageError);
 
             }

@@ -41,7 +41,7 @@ public class Order {
         int rentTime = faker.number().randomDigit();
         String deliveryDate =  new SimpleDateFormat("d.MM.yyyy").format(Calendar.getInstance().getTime());
         String comment = faker.name().title();
-        String[] color = {"BLACK","GREY"};
+        String[] color = null;
 
         return  new Order(firstName,lastName,address, metroStation,
                  phone, rentTime, deliveryDate, comment, color);
@@ -54,11 +54,10 @@ public class Order {
 
         return order;
         }
-    public static Order getOrderWithColor(String color){
+    public static Order getOrderWithColor(String[] color){
 
         Order order = getRandomOrder();
-        order.color[0] = color;
-        order.color[1] = null;
+        order.color = color;
 
         return order;
     }

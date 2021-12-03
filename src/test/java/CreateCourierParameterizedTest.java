@@ -1,6 +1,8 @@
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.ValidatableResponse;
+import org.junit.After;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -39,15 +41,13 @@ public class CreateCourierParameterizedTest {
         @DisplayName("Courier can not be created with invalid data")
         public void createCourierWithInvalidData() {
             ValidatableResponse response = new CourierClient().create(courier);
+
             int actualCodeResult = response.extract().statusCode();
             String actualMessage = response.extract().path("message");
 
             Assert.assertEquals(actualCodeResult, expectedCodeResult);
             Assert.assertEquals(actualMessage, expectedMessage);
-            if(actualCodeResult == 201) {
-                int courierId = new CourierClient().login(CourierCredentials.from(courier)).extract().path("id");
-                new CourierClient().delete(courierId);
-            }
+
         }
 
 
